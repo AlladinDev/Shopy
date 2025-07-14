@@ -2,12 +2,15 @@
 package usermodule
 
 import (
-	config "UserService/Pkg/Config"
-	worker "UserService/UserModule/Worker"
-	"UserService/UserModule/controller"
-	"UserService/UserModule/repository"
-	service "UserService/UserModule/service"
 	"time"
+
+	controllers "github.com/AlladinDev/Shopy/UserModule/controller"
+	"github.com/AlladinDev/Shopy/UserModule/repository"
+	service "github.com/AlladinDev/Shopy/UserModule/service"
+
+	middleware "github.com/AlladinDev/Shopy/Middleware"
+	config "github.com/AlladinDev/Shopy/Pkg/Config"
+	worker "github.com/AlladinDev/Shopy/UserModule/Worker"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -15,11 +18,11 @@ import (
 func InitialiseUserModule(appConfig *config.Config, router fiber.Router) {
 	repository := repository.NewUserRepository(appConfig.MongoDatabase)
 	service := service.CreateNewUserService(appConfig, repository)
-	controller := controller.CreateNewUserController(appConfig, service)
+	controller := controllers.CreateNewUserController(appConfig, service)
 	router.Post("/user/register", controller.RegisterUser)
 	router.Post("/user/login", controller.LoginUser)
 	router.Get("/user/Bulk", controller.GetBulkUsers)
-	router.Get("/user/details", controller.GetUserByID)
+	router.Get("/user/details", middleware.JwtAuthMiddleware, controller.GetUserByID)
 	router.Post("/user/addshop", controller.AddShopToUser)
 
 	//start workers for different tasks

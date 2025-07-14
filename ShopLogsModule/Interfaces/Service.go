@@ -1,8 +1,9 @@
 package interfaces
 
 import (
-	models "UserService/ShopLogsModule/Models"
 	"context"
+
+	models "github.com/AlladinDev/Shopy/ShopLogsModule/Models"
 
 	"go.mongodb.org/mongo-driver/mongo"
 )

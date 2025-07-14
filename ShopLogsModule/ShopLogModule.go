@@ -2,12 +2,13 @@
 package shoplogsmodule
 
 import (
-	config "UserService/Pkg/Config"
-	controller "UserService/ShopLogsModule/Controller"
-	repository "UserService/ShopLogsModule/Repository"
-	service "UserService/ShopLogsModule/Service"
-	worker "UserService/ShopLogsModule/Worker"
 	"time"
+
+	config "github.com/AlladinDev/Shopy/Pkg/Config"
+	controller "github.com/AlladinDev/Shopy/ShopLogsModule/Controller"
+	repository "github.com/AlladinDev/Shopy/ShopLogsModule/Repository"
+	service "github.com/AlladinDev/Shopy/ShopLogsModule/Service"
+	worker "github.com/AlladinDev/Shopy/ShopLogsModule/Worker"
 
 	"github.com/gofiber/fiber/v2"
 )

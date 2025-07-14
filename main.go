@@ -1,15 +1,16 @@
 package main
 
 import (
-	config "UserService/Pkg/Config"
-	mongodb "UserService/Pkg/Mongodb"
-	rabbitmq "UserService/Pkg/Rabbitmq"
-	shoplogsmodule "UserService/ShopLogsModule"
-	shopmodule "UserService/ShopModule"
-	suppliermodule "UserService/Suppliers"
-	usermodule "UserService/UserModule"
 	_ "net/http/pprof"
 	"time"
+
+	config "github.com/AlladinDev/Shopy/Pkg/Config"
+	mongodb "github.com/AlladinDev/Shopy/Pkg/Mongodb"
+	rabbitmq "github.com/AlladinDev/Shopy/Pkg/Rabbitmq"
+	shoplogsmodule "github.com/AlladinDev/Shopy/ShopLogsModule"
+	shopmodule "github.com/AlladinDev/Shopy/ShopModule"
+	suppliermodule "github.com/AlladinDev/Shopy/Suppliers"
+	usermodule "github.com/AlladinDev/Shopy/UserModule"
 
 	"github.com/gofiber/fiber/v2/middleware/pprof"
 

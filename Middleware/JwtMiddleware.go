@@ -1,30 +1,30 @@
+// Package middleware provides middlewares for various uses
 package middleware
 
 import (
-	utils "UserService/Utils"
+	"errors"
 	"fmt"
 	"net/http"
+
+	utils "github.com/AlladinDev/Shopy/Utils"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func JwtAuthMiddleware(c *fiber.Ctx) {
+func JwtAuthMiddleware(c *fiber.Ctx) error {
 	jwtCookie := c.Get("jwtToken")
 
 	if jwtCookie == "" {
-		c.Status(http.StatusUnauthorized).JSON(utils.AppError{Msg: "Jwt Token missing", StatusCode: http.StatusUnauthorized})
-		return
+		return utils.ReturnAppError(errors.New("jwt header missing"), "Unauthorized", http.StatusBadRequest)
 	}
 
 	//now verify jwt token inside it
 	tokenDetails, err := utils.VerifyJwt(jwtCookie)
 
 	if err != nil {
-		c.Status(http.StatusUnauthorized).JSON(utils.AppError{Msg: "Jwt Token missing", StatusCode: http.StatusUnauthorized})
-		return
+		return utils.ReturnAppError(errors.New("malformed jwt"), "Unauthorized", http.StatusBadRequest)
 	}
 
-	fmt.Println(tokenDetails)
-	c.Next()
-
+	fmt.Println("token detalils", tokenDetails)
+	return c.Next()
 }

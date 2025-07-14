@@ -2,10 +2,6 @@
 package service
 
 import (
-	constants "UserService/Constants"
-	config "UserService/Pkg/Config"
-	interfaces "UserService/Suppliers/Interfaces"
-	model "UserService/Suppliers/Model"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -13,6 +9,11 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	constants "github.com/AlladinDev/Shopy/Constants"
+	config "github.com/AlladinDev/Shopy/Pkg/Config"
+	interfaces "github.com/AlladinDev/Shopy/Suppliers/Interfaces"
+	model "github.com/AlladinDev/Shopy/Suppliers/Model"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

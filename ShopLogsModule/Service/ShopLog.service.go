@@ -2,10 +2,11 @@
 package service
 
 import (
-	interfaces "UserService/ShopLogsModule/Interfaces"
-	models "UserService/ShopLogsModule/Models"
 	"context"
 	"fmt"
+
+	interfaces "github.com/AlladinDev/Shopy/ShopLogsModule/Interfaces"
+	models "github.com/AlladinDev/Shopy/ShopLogsModule/Models"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"

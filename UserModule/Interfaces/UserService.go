@@ -1,10 +1,11 @@
 package interfaces
 
 import (
-	contracts "UserService/Contracts"
-	models "UserService/UserModule/Models"
-	schemas "UserService/UserModule/Schemas"
 	"context"
+
+	contracts "github.com/AlladinDev/Shopy/Contracts"
+	models "github.com/AlladinDev/Shopy/UserModule/Models"
+	schemas "github.com/AlladinDev/Shopy/UserModule/Schemas"
 
 	"go.mongodb.org/mongo-driver/mongo"
 )

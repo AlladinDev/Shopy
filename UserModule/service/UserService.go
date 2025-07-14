@@ -2,19 +2,20 @@
 package service
 
 import (
-	constants "UserService/Constants"
-	contracts "UserService/Contracts"
-	config "UserService/Pkg/Config"
-	interfaces "UserService/UserModule/Interfaces"
-	models "UserService/UserModule/Models"
-	schemas "UserService/UserModule/Schemas"
-	utils "UserService/Utils"
 	"context"
 	"errors"
 	"fmt"
 	"net/http"
 	"os"
 	"time"
+
+	constants "github.com/AlladinDev/Shopy/Constants"
+	contracts "github.com/AlladinDev/Shopy/Contracts"
+	config "github.com/AlladinDev/Shopy/Pkg/Config"
+	interfaces "github.com/AlladinDev/Shopy/UserModule/Interfaces"
+	models "github.com/AlladinDev/Shopy/UserModule/Models"
+	schemas "github.com/AlladinDev/Shopy/UserModule/Schemas"
+	utils "github.com/AlladinDev/Shopy/Utils"
 
 	"github.com/golang-jwt/jwt/v5"
 	"go.mongodb.org/mongo-driver/bson"
@@ -23,22 +24,22 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type UserService struct {
+type UserServce struct {
 	UserRepo  interfaces.IUserRepository
 	AppConfig *config.Config
 }
 
-func CreateNewUserService(config *config.Config, userRepository interfaces.IUserRepository) *UserService {
-	return &UserService{
+func CreateNewUserService(config *config.Config, userRepository interfaces.IUserRepository) *UserServce {
+	return &UserServce{
 		UserRepo:  userRepository,
 		AppConfig: config,
 	}
 }
 
-// now enforec that this userservice should implement all methods of IUserservice interface
-var _ interfaces.IUserService = (*UserService)(nil)
+// now enforec that this github.com/AlladinDev/Shopy should implement all methods of Igithub.com/AlladinDev/Shopy interface
+var _ interfaces.IUserService = (*UserServce)(nil)
 
-func (sv *UserService) RegisterUser(ctx context.Context, userDetails models.User) (*mongo.InsertOneResult, error) {
+func (sv *UserServce) RegisterUser(ctx context.Context, userDetails models.User) (*mongo.InsertOneResult, error) {
 	//first check if this userPhoneNumber or email already exists and if yes return error
 	//as phoneNumber and email should be unique
 	filter := bson.D{
@@ -82,14 +83,14 @@ func (sv *UserService) RegisterUser(ctx context.Context, userDetails models.User
 }
 
 // GetAllUsers function to get all users
-func (sv *UserService) GetAllUsers(ctx context.Context) ([]models.User, error) {
+func (sv *UserServce) GetAllUsers(ctx context.Context) ([]models.User, error) {
 
 	return sv.UserRepo.GetBulkUsers(ctx)
 
 }
 
 // GetUserByID func to get user by userid
-func (sv *UserService) GetUserByID(ctx context.Context, userID string) (models.User, error) {
+func (sv *UserServce) GetUserByID(ctx context.Context, userID string) (models.User, error) {
 	//first convert userid into mongo objectid
 	userMongodbID, idErr := primitive.ObjectIDFromHex(userID)
 
@@ -102,7 +103,7 @@ func (sv *UserService) GetUserByID(ctx context.Context, userID string) (models.U
 }
 
 // LoginUser func to login user
-func (sv *UserService) LoginUser(ctx context.Context, loginDetails schemas.UserLoginDTO) (jwtToken string, err error) {
+func (sv *UserServce) LoginUser(ctx context.Context, loginDetails schemas.UserLoginDTO) (jwtToken string, err error) {
 	user, err := sv.UserRepo.GetUserByEmail(ctx, loginDetails.Email)
 
 	if err != nil {
@@ -134,7 +135,7 @@ func (sv *UserService) LoginUser(ctx context.Context, loginDetails schemas.UserL
 }
 
 // GetUserByPhoneNumber func to get user by phone number
-func (sv *UserService) GetUserByPhoneNumber(ctx context.Context, mobileNumber int) (models.User, error) {
+func (sv *UserServce) GetUserByPhoneNumber(ctx context.Context, mobileNumber int) (models.User, error) {
 	//check if user exists or not using phoneNumber
 	user, err := sv.UserRepo.GetUserByPhoneNumber(ctx, mobileNumber)
 	if err != nil {
@@ -144,6 +145,6 @@ func (sv *UserService) GetUserByPhoneNumber(ctx context.Context, mobileNumber in
 	return user, nil
 }
 
-func (sv *UserService) AddShop(ctx context.Context, shopDetails contracts.ShopRegistrationLogs) *mongo.SingleResult {
+func (sv *UserServce) AddShop(ctx context.Context, shopDetails contracts.ShopRegistrationLogs) *mongo.SingleResult {
 	return sv.UserRepo.AddShop(ctx, shopDetails)
 }

@@ -2,10 +2,11 @@
 package rabbitmq
 
 import (
-	constants "UserService/Constants"
 	"fmt"
 	"log"
 	"os"
+
+	constants "github.com/AlladinDev/Shopy/Constants"
 
 	"github.com/rabbitmq/amqp091-go"
 )

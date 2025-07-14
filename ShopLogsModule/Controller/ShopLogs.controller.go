@@ -2,12 +2,13 @@
 package controller
 
 import (
-	interfaces "UserService/ShopLogsModule/Interfaces"
-	models "UserService/ShopLogsModule/Models"
-	utils "UserService/Utils"
 	"context"
 	"net/http"
 	"time"
+
+	interfaces "github.com/AlladinDev/Shopy/ShopLogsModule/Interfaces"
+	models "github.com/AlladinDev/Shopy/ShopLogsModule/Models"
+	utils "github.com/AlladinDev/Shopy/Utils"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"

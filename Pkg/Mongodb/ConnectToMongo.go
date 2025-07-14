@@ -1,18 +1,19 @@
+// Package mongodb provides functions to connect to mongodb
 package mongodb
 
 import (
-	constants "UserService/Constants"
 	"context"
 	"errors"
 	"os"
-	"time"
+
+	constants "github.com/AlladinDev/Shopy/Constants"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func ConnectToMongodb() (*mongo.Database, error) {
-	ctx, _ := context.WithTimeout(context.Background(), 6*time.Second)
+	ctx, _ := context.WithCancel(context.Background())
 	mongodbURL := os.Getenv("MONGODB_URL")
 
 	if mongodbURL == "" {

@@ -2,16 +2,18 @@
 package controller
 
 import (
-	config "UserService/Pkg/Config"
-	interfaces "UserService/ShopModule/Interfaces"
-	models "UserService/ShopModule/Models"
-	model "UserService/Suppliers/Model"
-	utils "UserService/Utils"
 	"context"
 	"errors"
 	"fmt"
 	"net/http"
 	"time"
+
+	config "github.com/AlladinDev/Shopy/Pkg/Config"
+	interfaces "github.com/AlladinDev/Shopy/ShopModule/Interfaces"
+
+	models "github.com/AlladinDev/Shopy/ShopModule/Models"
+	model "github.com/AlladinDev/Shopy/Suppliers/Model"
+	utils "github.com/AlladinDev/Shopy/Utils"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"

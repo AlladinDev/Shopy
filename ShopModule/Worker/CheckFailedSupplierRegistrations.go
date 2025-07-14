@@ -1,14 +1,15 @@
 package worker
 
 import (
-	constants "UserService/Constants"
-	config "UserService/Pkg/Config"
-	model "UserService/Suppliers/Model"
 	"context"
 	"encoding/json"
 	"fmt"
 	"log"
 	"time"
+
+	constants "github.com/AlladinDev/Shopy/Constants"
+	config "github.com/AlladinDev/Shopy/Pkg/Config"
+	model "github.com/AlladinDev/Shopy/Suppliers/Model"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

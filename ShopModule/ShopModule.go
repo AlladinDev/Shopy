@@ -2,13 +2,15 @@
 package shopmodule
 
 import (
-	constants "UserService/Constants"
-	config "UserService/Pkg/Config"
-	controller "UserService/ShopModule/Controller"
-	repository "UserService/ShopModule/Repository"
-	service "UserService/ShopModule/Service"
-	worker "UserService/ShopModule/Worker"
 	"time"
+
+	service "github.com/AlladinDev/Shopy/ShopModule/Service"
+	worker "github.com/AlladinDev/Shopy/ShopModule/Worker"
+
+	constants "github.com/AlladinDev/Shopy/Constants"
+	config "github.com/AlladinDev/Shopy/Pkg/Config"
+	controller "github.com/AlladinDev/Shopy/ShopModule/Controller"
+	repository "github.com/AlladinDev/Shopy/ShopModule/Repository"
 
 	"github.com/gofiber/fiber/v2"
 )

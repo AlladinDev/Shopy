@@ -2,16 +2,17 @@
 package controller
 
 import (
-	contracts "UserService/Contracts"
-	config "UserService/Pkg/Config"
-	interfaces "UserService/UserModule/Interfaces"
-	models "UserService/UserModule/Models"
-	schemas "UserService/UserModule/Schemas"
-	utils "UserService/Utils"
 	"context"
 	"errors"
 	"net/http"
 	"time"
+
+	contracts "github.com/AlladinDev/Shopy/Contracts"
+	config "github.com/AlladinDev/Shopy/Pkg/Config"
+	interfaces "github.com/AlladinDev/Shopy/UserModule/Interfaces"
+	models "github.com/AlladinDev/Shopy/UserModule/Models"
+	schemas "github.com/AlladinDev/Shopy/UserModule/Schemas"
+	utils "github.com/AlladinDev/Shopy/Utils"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -19,13 +20,13 @@ import (
 )
 
 type UserController struct {
-	userService interfaces.IUserService
+	UserService interfaces.IUserService
 	appConfig   *config.Config
 }
 
-func CreateNewUserController(appConfig *config.Config, userService interfaces.IUserService) *UserController {
+func CreateNewUserController(appConfig *config.Config, sv interfaces.IUserService) *UserController {
 	return &UserController{
-		userService: userService,
+		UserService: sv,
 		appConfig:   appConfig,
 	}
 }
@@ -38,7 +39,7 @@ func (uc *UserController) RegisterUser(c *fiber.Ctx) error {
 		return err
 	}
 
-	_, err := uc.userService.RegisterUser(ctx, userDetails)
+	_, err := uc.UserService.RegisterUser(ctx, userDetails)
 	return err
 }
 
@@ -52,7 +53,7 @@ func (uc *UserController) LoginUser(c *fiber.Ctx) error {
 		return err
 	}
 
-	token, err := uc.userService.LoginUser(ctx, loginDetails)
+	token, err := uc.UserService.LoginUser(ctx, loginDetails)
 	if err != nil {
 		return err
 	}
@@ -80,7 +81,7 @@ func (uc *UserController) GetBulkUsers(c *fiber.Ctx) error {
 	defer cancel()
 
 	//get all users
-	users, err := uc.userService.GetAllUsers(ctx)
+	users, err := uc.UserService.GetAllUsers(ctx)
 
 	if err != nil {
 		return err
@@ -100,7 +101,7 @@ func (uc *UserController) GetUserByID(c *fiber.Ctx) error {
 		return utils.ReturnAppError(errors.New("user id is missing"), "UserId missing", http.StatusBadRequest)
 	}
 
-	user, err := uc.userService.GetUserByID(ctx, userID)
+	user, err := uc.UserService.GetUserByID(ctx, userID)
 
 	if err != nil {
 		return err
@@ -144,7 +145,7 @@ func (uc *UserController) AddShopToUser(c *fiber.Ctx) error {
 	shopDetails.UserID = userID
 
 	//now call the service function
-	_ = uc.userService.AddShop(ctx, shopDetails)
+	_ = uc.UserService.AddShop(ctx, shopDetails)
 
 	return utils.AppSuccess(c, "Shop Added To User Successfully", nil, http.StatusCreated)
 }

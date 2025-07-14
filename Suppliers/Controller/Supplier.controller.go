@@ -2,16 +2,17 @@
 package controller
 
 import (
-	config "UserService/Pkg/Config"
-	interfaces "UserService/Suppliers/Interfaces"
-	model "UserService/Suppliers/Model"
-	utils "UserService/Utils"
 	"context"
 	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
 	"time"
+
+	config "github.com/AlladinDev/Shopy/Pkg/Config"
+	interfaces "github.com/AlladinDev/Shopy/Suppliers/Interfaces"
+	model "github.com/AlladinDev/Shopy/Suppliers/Model"
+	utils "github.com/AlladinDev/Shopy/Utils"
 
 	"github.com/gofiber/fiber/v2"
 )

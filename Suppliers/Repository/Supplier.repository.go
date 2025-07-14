@@ -2,10 +2,12 @@
 package repository
 
 import (
-	constants "UserService/Constants"
-	interfaces "UserService/Suppliers/Interfaces"
-	model "UserService/Suppliers/Model"
 	"context"
+
+	model "github.com/AlladinDev/Shopy/Suppliers/Model"
+
+	constants "github.com/AlladinDev/Shopy/Constants"
+	interfaces "github.com/AlladinDev/Shopy/Suppliers/Interfaces"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
