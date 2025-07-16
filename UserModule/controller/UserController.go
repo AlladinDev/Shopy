@@ -40,7 +40,11 @@ func (uc *UserController) RegisterUser(c *fiber.Ctx) error {
 	}
 
 	_, err := uc.UserService.RegisterUser(ctx, userDetails)
-	return err
+	if err != nil {
+		return err
+	}
+
+	return utils.AppSuccess(c, "User Registered Successfully", nil, http.StatusCreated)
 }
 
 func (uc *UserController) LoginUser(c *fiber.Ctx) error {
@@ -126,23 +130,34 @@ func (uc *UserController) AddShopToUser(c *fiber.Ctx) error {
 		return err
 	}
 
-	//convert ids which are in string format to mongodb format because data comes in json format and ids are in string form
+	//get shopid and userId from jwttoken decoded it will be saved by jwt middleware in it if not present throw error
+	shopID := c.Locals("shopId").(string)
+	if shopID == "" {
+		return utils.ReturnAppError(errors.New("shopid is required"), "Shopid is required", http.StatusBadRequest)
+	}
+
+	userID := c.Locals("userId").(string)
+	if userID == "" {
+		return utils.ReturnAppError(errors.New("userId is required"), "userID is required", http.StatusBadRequest)
+	}
+
+	//convert shopId which is in string format to mongodb format because data comes in json format and ids are in string form
 	///so convert them into mongodb id format only then mongodb operations will be successfull because stringId is not equal to mongodbId  even if they are same
-	shopID, err := primitive.ObjectIDFromHex(shopDetails.ShopID.Hex())
+	shopMongoDBID, err := primitive.ObjectIDFromHex(shopID)
 	if err != nil {
 		return err
 	}
 
 	//overwrite shopId with its mongodb id format
-	shopDetails.ShopID = shopID
+	shopDetails.ShopID = shopMongoDBID
 
-	userID, err := primitive.ObjectIDFromHex(shopDetails.UserID.Hex())
+	userMongoDBID, err := primitive.ObjectIDFromHex(userID)
 	if err != nil {
 		return err
 	}
 
 	//overwrite userid with its mongodb id format
-	shopDetails.UserID = userID
+	shopDetails.UserID = userMongoDBID
 
 	//now call the service function
 	_ = uc.UserService.AddShop(ctx, shopDetails)

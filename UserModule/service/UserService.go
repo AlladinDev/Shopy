@@ -93,7 +93,7 @@ func (sv *UserServce) GetAllUsers(ctx context.Context) ([]models.User, error) {
 func (sv *UserServce) GetUserByID(ctx context.Context, userID string) (models.User, error) {
 	//first convert userid into mongo objectid
 	userMongodbID, idErr := primitive.ObjectIDFromHex(userID)
-
+	fmt.Print(userMongodbID, idErr)
 	if idErr != nil {
 		return models.User{}, idErr
 	}
@@ -116,7 +116,7 @@ func (sv *UserServce) LoginUser(ctx context.Context, loginDetails schemas.UserLo
 		"userType": user.UserType,
 		"shopId":   user.Shop,
 		"iat":      time.Now(),
-		"exp":      time.Now().Add(3 * 24 * time.Hour),
+		"exp":      time.Now().Add(3 * 24 * time.Hour).Unix(),
 	}
 
 	//now generate jwt token

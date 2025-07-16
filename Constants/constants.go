@@ -5,6 +5,7 @@ const (
 	UserTypeAdmin                      = "admin"
 	UserTypeUser                       = "user"
 	DatabaseName                       = "Restaurant"
+	RoleUserAndAdmin                   = "Admin&User"
 	AdminCollection                    = "Admin"
 	UserCollection                     = "User"
 	RabbitMqShopRegistrationExchange   = "Shop_Registration_Exchange"

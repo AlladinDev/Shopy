@@ -31,10 +31,10 @@ func (sc *Controller) RegisterNewSupplier(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(c.Context(), 3*time.Second)
 	defer cancel()
 
-	//for testing get shopId from query then in future get it from jwt token decoded
-	shopID := c.Query("shopId")
-
-	if shopID == "" {
+	//get shopid from jwt decoded ,there it will be saved by jwt middleware
+	shopID, ok := c.Locals("shopId").(string)
+	println("shopid is", shopID)
+	if !ok || shopID == "" {
 		return utils.ReturnAppError(errors.New("shopid is required"), "ShopId is Required", http.StatusBadRequest)
 	}
 
@@ -43,8 +43,6 @@ func (sc *Controller) RegisterNewSupplier(c *fiber.Ctx) error {
 	if err := c.BodyParser(&supplierDetails); err != nil {
 		return err
 	}
-
-	fmt.Printf("%v", supplierDetails)
 
 	//now validate details
 	if err := config.Validator.Struct(&supplierDetails); err != nil {

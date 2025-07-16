@@ -97,7 +97,7 @@ func (sv *Service) RegisterSupplier(ctx context.Context, shopID string, supplier
 	updateQuery := bson.M{"$push": bson.M{"progress": model.RegistrationProgress{Status: "completed", EventTime: time.Now()}}}
 
 	if _, err := config.MongoDbDatabase.Collection(constants.SupplierRegistrationLogsModel).
-		UpdateOne(ctx, bson.M{"_id": supplierDetails.ID}, updateQuery); err != nil {
+		UpdateOne(ctx, bson.M{"supplierId": supplierDetails.ID}, updateQuery); err != nil {
 		return nil, err
 	}
 

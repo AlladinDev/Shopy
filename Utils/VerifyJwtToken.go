@@ -17,9 +17,9 @@ func VerifyJwt(jwtString string) (jwt.Claims, error) {
 
 	//now parse the jwt
 	jwtToken, err := jwt.Parse(jwtString, func(t *jwt.Token) (interface{}, error) {
-		return secretKey, nil
+		return []byte(secretKey), nil
 	}, //this jwt.withValidateMethod will validate method for better protection
-		jwt.WithValidMethods([]string{"SHA256"}))
+		jwt.WithValidMethods([]string{jwt.SigningMethodHS256.Name}))
 
 	if err != nil {
 		return nil, err

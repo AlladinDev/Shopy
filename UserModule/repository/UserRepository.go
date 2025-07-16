@@ -74,7 +74,7 @@ func (repo *UserRepository) GetBulkUsers(ctx context.Context) ([]models.User, er
 // GetUserByID func to get particular user by id
 func (repo *UserRepository) GetUserByID(ctx context.Context, userID primitive.ObjectID) (models.User, error) {
 	var user models.User
-	if err := repo.MongoDatabase.Collection(constants.UserCollection).FindOne(ctx, userID).Decode(&user); err != nil {
+	if err := repo.MongoDatabase.Collection(constants.UserCollection).FindOne(ctx, bson.M{"_id": userID}).Decode(&user); err != nil {
 		return models.User{}, nil
 	}
 
