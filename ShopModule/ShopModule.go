@@ -4,6 +4,7 @@ package shopmodule
 import (
 	"time"
 
+	middleware "github.com/AlladinDev/Shopy/Middleware"
 	service "github.com/AlladinDev/Shopy/ShopModule/Service"
 	worker "github.com/AlladinDev/Shopy/ShopModule/Worker"
 
@@ -21,8 +22,9 @@ func InitialiseShopModule(appConfig *config.Config, router fiber.Router) {
 	controllers := controller.GetNewShopController(service)
 
 	//now define routes
-	router.Post("shop/register", controllers.RegisterShop)
+	router.Post("shop/register", middleware.JwtAuthMiddleware, middleware.RoleGuards([]string{constants.UserTypeUser}), controllers.RegisterShop)
 	router.Post(constants.ShopModuleAddSupplierURL, controllers.RegisterSupplier)
+	router.Get("shop/bulk", controllers.GetAllShops)
 
 	//start the worker for checking failed shop registration events
 	go worker.CheckFailedShopRegistrationEventsWorker(5*time.Minute, appConfig.RabbitMqConnection)

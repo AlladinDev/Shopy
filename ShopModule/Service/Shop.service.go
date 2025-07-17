@@ -69,6 +69,9 @@ func (sv *ShopService) RegisterShop(ctx context.Context, shopDetails models.Shop
 	//now create mongodb id for shop
 	shopDetails.ID = primitive.NewObjectID()
 
+	//add empty array as suppliers to shopdetails
+	shopDetails.Suppliers = []primitive.ObjectID{}
+
 	//now store event that shop registration has been started in ShopLogs collection for that create payload
 	shopLogsPayload := contracts.ShopRegistrationLogs{
 		RegistrationDate: time.Now(),

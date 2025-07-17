@@ -39,7 +39,7 @@ func (sv *Service) GetAllSuppliers(ctx context.Context, page int, limit int) ([]
 }
 
 func (sv *Service) RegisterSupplier(ctx context.Context, shopID string, supplierDetails model.Supplier) (*mongo.InsertOneResult, error) {
-	fmt.Println("1 pass", supplierDetails.ID)
+	fmt.Println("1 pass", supplierDetails.ID, shopID)
 	//convert shopid which is string into mongodb id format
 	shopMongoID, err := primitive.ObjectIDFromHex(shopID)
 
@@ -49,6 +49,7 @@ func (sv *Service) RegisterSupplier(ctx context.Context, shopID string, supplier
 
 	//generate mongoid for supplierDetails
 	supplierDetails.ID = primitive.NewObjectID()
+
 	fmt.Println("1 pass", supplierDetails.ID)
 
 	//add shopid to this supplierdetails
@@ -82,6 +83,8 @@ func (sv *Service) RegisterSupplier(ctx context.Context, shopID string, supplier
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println("response from shopmodule is ", resp)
 
 	if resp.StatusCode != http.StatusCreated {
 		//here it means it failed to add supplier to shop so simply return with error here

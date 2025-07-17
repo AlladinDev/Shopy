@@ -3,6 +3,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 
 	model "github.com/AlladinDev/Shopy/Suppliers/Model"
 
@@ -30,6 +31,12 @@ func ReturnNewRepository(mongodb *mongo.Database) *Repository {
 
 // AddSupplier this function register supplier
 func (repo *Repository) AddSupplier(ctx context.Context, supplierData model.Supplier) (*mongo.InsertOneResult, error) {
+	//here first check if this supplier exists by name if then return err
+	_, err := repo.GetSupplierByName(ctx, supplierData.Name)
+	if err == nil { ///if supplier is not present then error will be there but if error is nill it means supplier by this name is present
+		return nil, errors.New("supplier by this name already exists")
+	}
+
 	return repo.DB.Collection(constants.SupplierModel).InsertOne(ctx, supplierData)
 }
 

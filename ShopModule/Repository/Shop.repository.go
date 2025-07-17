@@ -4,6 +4,7 @@ package repository
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	constants "github.com/AlladinDev/Shopy/Constants"
 	Interfaces "github.com/AlladinDev/Shopy/ShopModule/Interfaces"
@@ -100,8 +101,11 @@ func (repo *ShopRepository) AddSupplier(ctx context.Context, supplierDetails mod
 		"$push": bson.M{"suppliers": supplierDetails.SupplierID},
 	}
 
+	fmt.Println("shopid is ", supplierDetails.ShopID, supplierDetails.SupplierID)
+
 	resp, err := repo.MongodbDatabaseHandler.Collection(constants.ShopCollection).UpdateOne(ctx, bson.M{"_id": supplierDetails.ShopID}, updateQuery)
 
+	fmt.Println(err)
 	if err != nil {
 		return nil, err
 	}

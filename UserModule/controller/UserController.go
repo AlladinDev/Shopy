@@ -130,34 +130,19 @@ func (uc *UserController) AddShopToUser(c *fiber.Ctx) error {
 		return err
 	}
 
-	//get shopid and userId from jwttoken decoded it will be saved by jwt middleware in it if not present throw error
-	shopID := c.Locals("shopId").(string)
-	if shopID == "" {
-		return utils.ReturnAppError(errors.New("shopid is required"), "Shopid is required", http.StatusBadRequest)
-	}
-
-	userID := c.Locals("userId").(string)
-	if userID == "" {
-		return utils.ReturnAppError(errors.New("userId is required"), "userID is required", http.StatusBadRequest)
-	}
+	var err error
 
 	//convert shopId which is in string format to mongodb format because data comes in json format and ids are in string form
 	///so convert them into mongodb id format only then mongodb operations will be successfull because stringId is not equal to mongodbId  even if they are same
-	shopMongoDBID, err := primitive.ObjectIDFromHex(shopID)
+	shopDetails.ShopID, err = primitive.ObjectIDFromHex(shopDetails.ShopID.Hex())
 	if err != nil {
 		return err
 	}
 
-	//overwrite shopId with its mongodb id format
-	shopDetails.ShopID = shopMongoDBID
-
-	userMongoDBID, err := primitive.ObjectIDFromHex(userID)
+	shopDetails.UserID, err = primitive.ObjectIDFromHex(shopDetails.UserID.Hex())
 	if err != nil {
 		return err
 	}
-
-	//overwrite userid with its mongodb id format
-	shopDetails.UserID = userMongoDBID
 
 	//now call the service function
 	_ = uc.UserService.AddShop(ctx, shopDetails)

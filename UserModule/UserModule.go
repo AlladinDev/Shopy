@@ -24,7 +24,7 @@ func InitialiseUserModule(appConfig *config.Config, router fiber.Router) {
 	router.Post("/user/login", controller.LoginUser)
 	router.Get("/user/Bulk", middleware.JwtAuthMiddleware, middleware.RoleGuards([]string{constants.RoleUserAndAdmin}), controller.GetBulkUsers)
 	router.Get("/user/details", middleware.JwtAuthMiddleware, middleware.RoleGuards([]string{constants.RoleUserAndAdmin}), controller.GetUserByID)
-	router.Post("/user/addshop", middleware.JwtAuthMiddleware, middleware.RoleGuards([]string{constants.UserTypeUser}), controller.AddShopToUser)
+	router.Post("/user/addshop", controller.AddShopToUser)
 
 	//start workers for different tasks
 	go worker.CheckFailedShopRegistrationEventsWorker(4*time.Minute, appConfig.RabbitMqConnection)

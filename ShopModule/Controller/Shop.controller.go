@@ -50,17 +50,16 @@ func (sc *ShopController) RegisterShop(c *fiber.Ctx) error {
 		return err
 	}
 
-	fmt.Print("hi passed there")
-	// //now extract userId from app context set by jwt middleware
-	// userID, ok := c.Locals("userId").(string)
+	//now extract userId from app context set by jwt middleware
+	userID, ok := c.Locals("userId").(string)
 
-	// //if userid is not present return error
-	// if !ok {
-	// 	return utils.ReturnAppError(errors.New("userId is required for registering shop"), "UserId is missing", http.StatusBadRequest)
-	// }
+	//if userid is not present return error
+	if !ok || userID == "" {
+		return utils.ReturnAppError(errors.New("userId is required for registering shop"), "UserId is missing", http.StatusBadRequest)
+	}
 
 	//now call service function to register shop
-	_, err := sc.ShopService.RegisterShop(ctx, shopDetails, shopDetails.Owner.Hex())
+	_, err := sc.ShopService.RegisterShop(ctx, shopDetails, userID)
 
 	if err != nil {
 		return err
@@ -112,6 +111,8 @@ func (sc *ShopController) RegisterSupplier(c *fiber.Ctx) error {
 	if err := c.BodyParser(&supplierDetails); err != nil {
 		return utils.ReturnAppError(err, "Body Parsing Error", http.StatusBadRequest)
 	}
+
+	fmt.Println("request received in shop module", supplierDetails)
 
 	//now do validation
 	validator := validator.New()
